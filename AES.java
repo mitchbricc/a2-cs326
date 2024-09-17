@@ -181,10 +181,9 @@ class AES
      */
     protected static int forwardSubstituteByte(int byteValue)
     {
-
-        /* to be completed */
-        
-        return 0; // here to please the compiler; should be modified
+        int row = byteValue & 0xf0;
+        int col = byteValue & 0x0f;
+        return sBox[row][col];
     }// forwardSubstituteByte method
 
     /* Modify the given State array by replacing each one of its byte
@@ -192,9 +191,11 @@ class AES
      */    
     protected static void forwardSubstituteBytes(int[][] state)
     {
-
-        /* to be completed */
-        
+        for(int row = 0;row < state.length;row++){
+            for(int col = 0;col < state[row].length;col++){
+                state[row][col] = forwardSubstituteByte(state[row][col]);
+            }
+        }   
     }// forwardSubstituteBytes method
 
     /* Given a byte value, return the byte value that replaces it

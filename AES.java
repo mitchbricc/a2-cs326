@@ -1,6 +1,6 @@
 /*****************************************************
    CS 326 - Fall 2024 - Assignment #2
-   Full name of student #1: ____________________
+   Full name of student #1: Mitchell Bricco
    Full name of student #2: ____________________
    Full name of student #3: ____________________
    (delete the line above this one if your team is a pair)

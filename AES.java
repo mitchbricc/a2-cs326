@@ -6,13 +6,19 @@
    (delete the line above this one if your team is a pair)
  *****************************************************/
 
+import java.nio.ByteBuffer;
 import java.util.*;
 
 class AES
 {
 
     public static void main(String[] args){
-        int[][] m = hexStringToByteArray("000102030405060708090A0B0C0D0EFF");
+        //int[][] m = hexStringToByteArray("000102030405060708090A0B0C0D0EFF");
+        int[][] m = hexStringToByteArray("00000000010101010202020204040404");
+        printMatrix(m);
+        System.out.println();
+        int[] RC = new int[]{0x01020304,0x02040608,0x00010203,0x01020304};
+        addRoundKey(m, RC, 0);
         printMatrix(m);
     }
     /* AES S-box */
@@ -268,9 +274,16 @@ class AES
      */
     protected static void addRoundKey(int[][] state, int[] w, int round)
     {
-
-        /* to be completed */
-
+        byte[] temp = new byte[w.length*4];
+        for (int i = round*4; i < round*4+4; i++) {
+            temp[i * 4] = (byte) (w[i] >>> 24); 
+            temp[i * 4 + 1] = (byte) (w[i] >>> 16);
+            temp[i * 4 + 2] = (byte) (w[i] >>> 8);
+            temp[i * 4 + 3] = (byte) w[i];
+        }
+        for(int i = 0; i < temp.length;i++){
+            state[i%4][i/4] = state[i%4][i/4] ^ temp[i];
+        }
     }// addRoundKey method
 
     /* Given a state array, the array of 44 one-word round key values, and 

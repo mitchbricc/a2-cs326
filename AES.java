@@ -12,7 +12,8 @@ class AES
 {
 
     public static void main(String[] args){
-        hexStringToByteArray("000102030405060708090A0B0C0D0EFF");
+        int[][] m = hexStringToByteArray("000102030405060708090A0B0C0D0EFF");
+        printMatrix(m);
     }
     /* AES S-box */
     static private int[][] sBox = {
@@ -114,8 +115,12 @@ class AES
      */
     protected static void printMatrix(int[][] matrix)
     {
-
-        /* to be completed */
+        for(int row = 0; row < matrix.length;row++){
+            for(int col = 0; col < matrix.length;col++){
+                System.out.printf("%02x ".toUpperCase(),matrix[row][col]);
+            }
+            System.out.println();
+        }
         
     }// printMatrix method
 
@@ -132,16 +137,12 @@ class AES
      */
     protected static int[][] hexStringToByteArray(String hex)
     {
-        int[][] out = new int[hex.length()/4][hex.length()/4];
+        int[][] out = new int[4][4];
         for(int i = 0; i < hex.length();i=i+2){
-            System.out.println("i: "+i);
-            System.out.println(hex.substring(i, i+2));
-            int num = Integer.decode(hex.substring(i, i+2));
-            
-            System.out.println(num);
+            out[(i/2)%4][(i/2)/4] = Integer.decode("0X"+hex.substring(i, i+2));
         }
         
-        return null; // here to please the compiler; should be modified
+        return out; // here to please the compiler; should be modified
     }// hexStringToByteArray method
     
     /* Given two byte values (i.e., between 0 and 255, each stored in

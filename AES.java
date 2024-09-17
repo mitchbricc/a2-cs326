@@ -11,6 +11,9 @@ import java.util.*;
 class AES
 {
 
+    public static void main(String[] args){
+        hexStringToByteArray("000102030405060708090A0B0C0D0EFF");
+    }
     /* AES S-box */
     static private int[][] sBox = {
         /* row 0 */   {0x63, 0x7c, 0x77, 0x7b, 0xf2, 0x6b, 0x6f, 0xc5, 0x30,
@@ -129,8 +132,14 @@ class AES
      */
     protected static int[][] hexStringToByteArray(String hex)
     {
-
-        /* to be completed */
+        int[][] out = new int[hex.length()/4][hex.length()/4];
+        for(int i = 0; i < hex.length();i=i+2){
+            System.out.println("i: "+i);
+            System.out.println(hex.substring(i, i+2));
+            int num = Integer.decode(hex.substring(i, i+2));
+            
+            System.out.println(num);
+        }
         
         return null; // here to please the compiler; should be modified
     }// hexStringToByteArray method

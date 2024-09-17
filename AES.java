@@ -161,9 +161,16 @@ class AES
      */    
     protected static int times(int v1, int v2)
     {
+        BitSet bitset = BitSet.valueOf(new long[]{v1});
+
+        int product = add(times2(v2), v2);
+        for (int i = 0; i < bitset.length()-2; i++){
+            if (bitset.get(i)){
+                product = add(times2(product), v2);
+            }
+        }
         
-        
-        return 0; // here to please the compiler; should be modified
+        return product; 
     }// times method
     
     /* Given a byte value, return the byte value that replaces it
@@ -337,5 +344,5 @@ class AES
 
         return null; // here to please the compiler; should be modified
     }// decrypt method
-
+    
 }// AES class

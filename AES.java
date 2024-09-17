@@ -30,6 +30,24 @@ class AES {
             int rConValue = rCon(j);
             System.out.printf("rCon(%d): 0x%08X%n", j, rConValue);
         }
+
+        int[][] key = {
+            {0x2b, 0x7e, 0x15, 0x16},
+            {0x28, 0xed, 0x2a, 0x6a},
+            {0xab, 0xf7, 0x15, 0x88},
+            {0x09, 0xcf, 0x4f, 0x3c}
+        };
+    
+        int[] expandedKey = expandKey(key);
+    
+        // Print expanded key
+        for (int i = 0; i < expandedKey.length; i++) {
+            System.out.printf("%08x ", expandedKey[i]);
+            if ((i + 1) % 4 == 0) {
+                System.out.println();
+            }
+        }
+        
     }
 
     /* AES S-box */
@@ -214,7 +232,7 @@ class AES {
      * according to the AES S-box.
      */
     protected static int forwardSubstituteByte(int byteValue) {
-        int row = byteValue & 0xf0;
+        int row = (byteValue & 0xf0) >> 4;
         int col = byteValue & 0x0f;
         return sBox[row][col];
     }// forwardSubstituteByte method
@@ -332,7 +350,6 @@ class AES {
      * rotWord( 0x01020304 ) returns 0x02030401
      */
     protected static int rotWord(int word) {
-        // Isolate the bytes
         int byte1 = (word >> 24) & 0xFF;
         int byte2 = (word >> 16) & 0xFF;
         int byte3 = (word >> 8) & 0xFF;
@@ -364,10 +381,22 @@ class AES {
      * return a 44-word array according to the Key Expansion algorithm.
      */
     protected static int[] expandKey(int[][] key) {
-
-        /* to be completed */
-
-        return null; // here to please the compiler; should be modified
+        int[] wordArray = new int[44];
+        
+        for (int i = 0; i < 4; i++) {
+            wordArray[i] = (key[0][i] << 24) | (key[1][i] << 16) | (key[2][i] << 8) | key[3][i];
+        }
+        
+        for (int i = 4; i < 44; i++) {
+            int temp = wordArray[i - 1];
+            if (i % 4 == 0) {
+                temp = rotWord(temp);
+                temp = forwardSubstituteByte(temp);
+                temp ^= rCon(i / 4);
+            }
+            wordArray[i] = wordArray[i - 4] ^ temp;
+        }
+        return wordArray;
     }// expandKey method
 
     /*

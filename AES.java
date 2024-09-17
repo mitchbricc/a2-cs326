@@ -1,7 +1,7 @@
 /*****************************************************
    CS 326 - Fall 2024 - Assignment #2
    Full name of student #1: Mitchell Bricco
-   Full name of student #2: ____________________
+   Full name of student #2: Maximilian Patterson
    Full name of student #3: ____________________
    (delete the line above this one if your team is a pair)
  *****************************************************/
@@ -150,20 +150,19 @@ class AES
      */
     protected static int add(int v1, int v2)
     {
-
-        /* to be completed */
-        
-        return 0; // here to please the compiler; should be modified
+        return v1^v2;
     }// add method
 
     /* Given a byte value, return twice that value in GF(256).
      */
     protected static int times2(int value)
     {
+        int shifted = value << 1;
+        if (value > 128) {
+            return shifted^27; // xor 00011011
+        }
 
-        /* to be completed */
-
-        return 0; // here to please the compiler; should be modified
+        return shifted; 
     }// times2 method
 
     /* Given two byte values, return their product in GF(256). We
@@ -172,8 +171,7 @@ class AES
      */    
     protected static int times(int v1, int v2)
     {
-
-        /* to be completed */
+        
         
         return 0; // here to please the compiler; should be modified
     }// times method

@@ -224,9 +224,13 @@ class AES
      */
     protected static void shiftRows(int[][] state)
     {
-
-        /* to be completed */
-        
+        for(int row = 1;row <state.length;row++){
+            int[] temp = new int[state[row].length];
+            for(int col = 0;col <state[row].length;col++){
+                temp[(col+4-row)%4] = state[row][col];
+            }
+            state[row] = temp;
+        }
     }// shiftRows method
 
     /* Shift each row of the input state according to the Inverse Shift Rows

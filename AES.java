@@ -20,7 +20,11 @@ class AES {
         int[] RC = new int[] { 0x01020304, 0x02040608, 0x00010203, 0x01020304 };
         addRoundKey(m, RC, 0);
         printMatrix(m);
-        System.out.println(times(15, 3));
+
+        int word = 0x01020304;
+        int rotatedWord = rotWord(word);
+        System.out.printf("Original word: 0x%08X%n", word);
+        System.out.printf("Rotated word: 0x%08X%n", rotatedWord);
     }
 
     /* AES S-box */
@@ -180,7 +184,6 @@ class AES {
      */
     protected static int times(int v1, int v2) {
         int product = 0;
-        int irreduciblePoly = 0x11B; // x^8 + x^4 + x^3 + x + 1
     
         while (v2 != 0) {
             // If the least significant bit of v2 is 1, add v1 to the product
@@ -188,15 +191,12 @@ class AES {
                 product ^= v1; // XOR in GF(256) is addition
             }
     
-            // Shift v1 to the left (equivalent to multiplying by x in GF(256))
             v1 <<= 1;
     
-            // If v1 is now greater than or equal to 256 (i.e., 9 bits), reduce it
             if (v1 >= 256) {
-                v1 ^= 0x11B; // Perform modular reduction
+                v1 ^= 0x11B; // 72
             }
     
-            // Shift v2 to the right (equivalent to dividing by 2)
             v2 >>= 1;
         }
     
@@ -327,10 +327,14 @@ class AES {
      * rotWord( 0x01020304 ) returns 0x02030401
      */
     protected static int rotWord(int word) {
-
-        /* to be completed */
-
-        return 0; // here to please the compiler; should be modified
+        // Isolate the bytes
+        int byte1 = (word >> 24) & 0xFF;
+        int byte2 = (word >> 16) & 0xFF;
+        int byte3 = (word >> 8) & 0xFF;
+        int byte4 = word & 0xFF;
+        
+        int rotatedWord = (byte2 << 24) | (byte3 << 16) | (byte4 << 8) | byte1;
+        return rotatedWord;
     }// rotWord method
 
     /*

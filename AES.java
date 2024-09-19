@@ -204,31 +204,22 @@ class AES {
      * Given two byte values, return their product in GF(256). We
      * described in class how to code this method correctly using
      * the two previous methods.
-     */
-    protected static int times(int v1, int v2) {
-        int product = 0;
-    
-        while (v2 != 0) {
-            // If the least significant bit of v2 is 1, add v1 to the product
-            if ((v2 & 1) != 0) {
-                product ^= v1; // XOR in GF(256) is addition
-            }
-    
-            v1 <<= 1;
-    
-            if (v1 >= 256) {
-                v1 ^= 0x11B; // 72
-            }
-    
-            v2 >>= 1;
-        }
-    
-        return product;
-    }
-    
+     */    
+    protected static int times(int v1, int v2)
+    {
+        BitSet bitset = BitSet.valueOf(new long[]{v1});
 
-    /*
-     * Given a byte value, return the byte value that replaces it
+        int product = add(times2(v2), v2);
+        for (int i = 0; i < bitset.length()-2; i++){
+            if (bitset.get(i)){
+                product = add(times2(product), v2);
+            }
+        }
+        
+        return product; 
+    }// times method
+    
+    /* Given a byte value, return the byte value that replaces it
      * according to the AES S-box.
      */
     protected static int forwardSubstituteByte(int byteValue) {
@@ -450,5 +441,5 @@ class AES {
         }
         return m; 
     }// decrypt method
-
+    
 }// AES class

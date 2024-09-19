@@ -271,9 +271,18 @@ class AES {
      * transformation.
      */
     protected static void inverseMixColumns(int[][] state) {
+        int[][] invert = {
+            {14, 11, 13, 9},
+            {9, 14, 11, 13},
+            {13, 9, 14, 11},
+            {11, 13, 9, 14}
+        };
 
-        /* to be completed */
-
+        for (int c = 0; c < 4; c++) {
+            for (int r = 0; r < 4; r++) {
+                state[r][c] = times(state[r][c], invert[r][c]);
+            }
+        }
     }// inverseMixColumns method
 
     /*

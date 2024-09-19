@@ -407,10 +407,16 @@ class AES {
      * array of byte values.
      */
     protected static int[][] encrypt(String block, String keyStr) {
-
-        /* to be completed */
-
-        return null; // here to please the compiler; should be modified
+        int[][] m = hexStringToByteArray(block);
+        int[] w = expandKey(hexStringToByteArray(keyStr));
+        addRoundKey(m, w, 0);
+        for (int i = 1; i < 11; i++) {
+            forwardSubstituteBytes(m);
+            shiftRows(m);
+            mixColumns(m);
+            addRoundKey(m, w, i);
+        }
+        return m; 
     }// encrypt method
 
     /*

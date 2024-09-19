@@ -293,8 +293,8 @@ class AES {
             temp[i * 4 + 2] = (byte) (w[i] >>> 8);
             temp[i * 4 + 3] = (byte) w[i];
         }
-        for (int i = 0; i < temp.length; i++) {
-            state[i % 4][i / 4] = state[i % 4][i / 4] ^ temp[i];
+        for (int i = round * 16; i < round * 16 + 16; i++) {
+            state[(i%16) % 4][(i%16) / 4] = state[(i%16) % 4][(i%16) / 4] ^ temp[i];
         }
     }// addRoundKey method
 

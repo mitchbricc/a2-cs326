@@ -403,14 +403,14 @@ class AES {
     protected static int[][] decrypt(String block, String keyStr) {
         int[][] m = hexStringToByteArray(block);
         int[] w = expandKey(hexStringToByteArray(keyStr));
+        inverseAddRoundKey(m, w, 0);
         for (int i = 0; i < 11; i++) {
-            inverseAddRoundKey(m, w, i);
-            inverseMixColumns(m);
-            inverseShiftRows(m);
             inverseShiftRows(m);
             inverseSubstituteBytes(m);
+            inverseAddRoundKey(m, w, i);
+            inverseMixColumns(m);
         }
-        inverseAddRoundKey(m, w, 11);
+        
         return m; 
     }// decrypt method
     

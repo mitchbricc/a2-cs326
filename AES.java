@@ -260,7 +260,7 @@ class AES {
         for (int col = 0; col < state[0].length; col++){
             for (int row = 0; row<state[0].length; row++){
                 int cur = state[row][col];
-                state[row][col] = add(add(times(add(times2(cur), state[(row+1)%4][col]), 3),
+                state[row][col] = add(add(add(times2(cur), times(state[(row+1)%4][col], 3)),
                 state[(row+2)%4][col]), state[(row+3)%4][col]);
             }
         }
@@ -271,16 +271,11 @@ class AES {
      * transformation.
      */
     protected static void inverseMixColumns(int[][] state) {
-        int[][] invert = {
-            {14, 11, 13, 9},
-            {9, 14, 11, 13},
-            {13, 9, 14, 11},
-            {11, 13, 9, 14}
-        };
-
-        for (int c = 0; c < 4; c++) {
-            for (int r = 0; r < 4; r++) {
-                state[r][c] = times(state[r][c], invert[r][c]);
+        for (int col = 0; col < state[0].length; col++){
+            for (int row = 0; row<state[0].length; row++){
+                int cur = state[row][col];
+                state[row][col] = add(add(add(times(cur, 14), times(state[(row+1)%4][col], 11)),
+                times(state[(row+2)%4][col], 13)), times(state[(row+3)%4][col], 9));
             }
         }
     }// inverseMixColumns method

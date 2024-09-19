@@ -254,10 +254,9 @@ class AES {
      * according to the AES inverse S-box.
      */
     protected static int inverseSubstituteByte(int byteValue) {
-
-        /* to be completed */
-
-        return 0; // here to please the compiler; should be modified
+        int row = (byteValue & 0xf0) >> 4;
+        int col = byteValue & 0x0f;
+        return invSBox[row][col];
     }// inverseSubstituteByte method
 
     /*
@@ -265,9 +264,11 @@ class AES {
      * values according to the AES inverse S-box.
      */
     protected static void inverseSubstituteBytes(int[][] state) {
-
-        /* to be completed */
-
+        for (int row = 0; row < state.length; row++) {
+            for (int col = 0; col < state[row].length; col++) {
+                state[row][col] = inverseSubstituteByte(state[row][col]);
+            }
+        }
     }// inverseSubstituteBytes method
 
     /*
@@ -289,9 +290,13 @@ class AES {
      * transformation.
      */
     protected static void inverseShiftRows(int[][] state) {
-
-        /* to be completed */
-
+        for (int row = 1; row < state.length; row++) {
+            int[] temp = new int[state[row].length];
+            for (int col = 0; col < state[row].length; col++) {
+                temp[(col + row) % 4] = state[row][col];
+            }
+            state[row] = temp;
+        }
     }// inverseShiftRows method
 
     /*
@@ -339,9 +344,16 @@ class AES {
      */
     protected static void inverseAddRoundKey(int[][] state, int[] w,
             int round) {
-
-        /* to be completed */
-
+        byte[] temp = new byte[w.length * 4];
+        for (int i = round * 4; i < round * 4 + 4; i++) {
+            temp[i * 4] = (byte) (w[i] >>> 24);
+            temp[i * 4 + 1] = (byte) (w[i] >>> 16);
+            temp[i * 4 + 2] = (byte) (w[i] >>> 8);
+            temp[i * 4 + 3] = (byte) w[i];
+        }
+        for (int i = 0; i < temp.length; i++) {
+            state[i % 4][i / 4] = state[i % 4][i / 4] ^ temp[i];
+        }
     }// inverseAddRoundKey method
 
     /*
@@ -427,10 +439,16 @@ class AES {
      * array of byte values.
      */
     protected static int[][] decrypt(String block, String keyStr) {
-
-        /* to be completed */
-
-        return null; // here to please the compiler; should be modified
+        int[][] m = hexStringToByteArray(block);
+        int[] w = expandKey(hexStringToByteArray(keyStr));
+        addRoundKey(m, w, 0);
+        for (int i = 1; i < 11; i++) {
+            forwardSubstituteBytes(m);
+            shiftRows(m);
+            mixColumns(m);
+            addRoundKey(m, w, i);
+        }
+        return m; 
     }// decrypt method
 
 }// AES class

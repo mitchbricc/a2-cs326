@@ -159,7 +159,7 @@ class AES {
             return shifted ^ 27; // xor 00011011
         }
 
-        return shifted;
+        return shifted & 0xff;
     }// times2 method
 
     /*
@@ -294,6 +294,7 @@ class AES {
             temp[i * 4 + 3] = (byte) w[i];
         }
         for (int i = round * 16; i < round * 16 + 16; i++) {
+            System.out.println("round: "+round+" row: "+i % 4+" col: "+i / 4+" i: "+i);
             state[(i%16) % 4][(i%16) / 4] = state[(i%16) % 4][(i%16) / 4] ^ temp[i];
         }
     }// addRoundKey method

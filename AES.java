@@ -12,44 +12,6 @@ import java.util.*;
 
 class AES {
 
-    public static void main(String[] args) {
-        // int[][] m = hexStringToByteArray("000102030405060708090A0B0C0D0EFF");
-        int[][] m = hexStringToByteArray("00000000010101010202020204040404");
-        printMatrix(m);
-        System.out.println();
-        int[] RC = new int[] { 0x01020304, 0x02040608, 0x00010203, 0x01020304 };
-        addRoundKey(m, RC, 0);
-        printMatrix(m);
-
-        int word = 0x01020304;
-        int rotatedWord = rotWord(word);
-        System.out.printf("Original word: 0x%08X%n", word);
-        System.out.printf("Rotated word: 0x%08X%n", rotatedWord);
-
-        for (int j = 1; j <= 10; j++) {
-            int rConValue = rCon(j);
-            System.out.printf("rCon(%d): 0x%08X%n", j, rConValue);
-        }
-
-        int[][] key = {
-            {0x2b, 0x7e, 0x15, 0x16},
-            {0x28, 0xed, 0x2a, 0x6a},
-            {0xab, 0xf7, 0x15, 0x88},
-            {0x09, 0xcf, 0x4f, 0x3c}
-        };
-    
-        int[] expandedKey = expandKey(key);
-    
-        // Print expanded key
-        for (int i = 0; i < expandedKey.length; i++) {
-            System.out.printf("%08x ", expandedKey[i]);
-            if ((i + 1) % 4 == 0) {
-                System.out.println();
-            }
-        }
-        
-    }
-
     /* AES S-box */
     static private int[][] sBox = {
             /* row 0 */ { 0x63, 0x7c, 0x77, 0x7b, 0xf2, 0x6b, 0x6f, 0xc5, 0x30,
@@ -293,10 +255,15 @@ class AES {
     /*
      * Update the input state according to the Mix Columns transformation.
      */
-    protected static void mixColumns(int[][] state) {
-
-        /* to be completed */
-
+    protected static void mixColumns(int[][] state)
+    {
+        for (int col = 0; col < state[0].length; col++){
+            for (int row = 0; row<state[0].length; row++){
+                int cur = state[row][col];
+                state[row][col] = add(add(times(add(times2(cur), state[(row+1)%4][col]), 3),
+                state[(row+2)%4][col]), state[(row+3)%4][col]);
+            }
+        }
     }// mixColumns method
 
     /*

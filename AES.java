@@ -239,9 +239,13 @@ class AES
      */
     protected static void mixColumns(int[][] state)
     {
-
-        /* to be completed */
-        
+        for (int col = 0; col < state[0].length; col++){
+            for (int row = 0; row<state[0].length; row++){
+                int cur = state[row][col];
+                state[row][col] = add(add(times(add(times2(cur), state[(row+1)%4][col]), 3),
+                state[(row+2)%4][col]), state[(row+3)%4][col]);
+            }
+        }
     }// mixColumns method
 
     /* Update the input state according to the Inverse Mix Columns 

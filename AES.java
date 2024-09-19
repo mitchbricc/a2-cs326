@@ -256,12 +256,21 @@ class AES {
      * Update the input state according to the Mix Columns transformation.
      */
     protected static void mixColumns(int[][] state)
-    {
-        for (int col = 0; col < state[0].length; col++){
-            for (int row = 0; row<state[0].length; row++){
-                int cur = state[row][col];
-                state[row][col] = add(add(add(times2(cur), times(state[(row+1)%4][col], 3)),
-                state[(row+2)%4][col]), state[(row+3)%4][col]);
+        for (int col = 0; col < 4; col++) {
+            int[] temp = new int[4];
+            int c0 = state[0][col]; // 1
+            int c1 = state[1][col]; // 2
+            int c2 = state[2][col]; // 3
+            int c3 = state[3][col]; // 4
+    
+            temp[0] = add(add(add(times2(c0), (times2(c1) ^ c1)), c2), c3) & 0xFF;
+            temp[1] = add(add(add(times2(c1), (times2(c2) ^ c2)), c0), c3) & 0xFF;
+            temp[2] = add(add(add(times2(c2), (times2(c3) ^ c3)), c0), c1) & 0xFF;
+            temp[3] = add(add(add(times2(c3), (times2(c0) ^ c0)), c1), c2) & 0xFF;
+    
+            // Copy the transformed column back to the state matrix
+            for (int row = 0; row < 4; row++) {
+                state[row][col] = temp[row];
             }
         }
     }// mixColumns method

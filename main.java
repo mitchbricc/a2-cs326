@@ -24,6 +24,26 @@ public class main {
         //     System.out.println();
         // }
     }
+    public static String textToHex(String plaintext){
+        byte[] bytes = plaintext.getBytes();
+        String plainHex = "";
+        for (int i = 0; i < 8; i++) {
+            plainHex += String.format("%02X", bytes[i]);
+        }
+        return plainHex;
+    }
+    public static String hexToString(String plainHex){
+        StringBuilder result = new StringBuilder();
+        // Split the hex string into pairs of characters
+        for (int i = 0; i < plainHex.length(); i += 2) {
+            // Get the substring of 2 characters
+            String byteString = plainHex.substring(i, i + 2);
+            // Convert the hex pair to an integer
+            int charCode = Integer.parseInt(byteString, 16);
+            result.append((char) charCode);
+        }
+        return result.toString();
+    }
     public static boolean encryptTest(){
         String plaintext = "helloworld this is a sentence of unknown length. I hope it is long enough";
         byte[] bytes = plaintext.getBytes();

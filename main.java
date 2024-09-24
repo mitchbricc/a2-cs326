@@ -10,6 +10,7 @@
  
      public static void main(String[] args) {
          times2Test();
+         mixColumnsTest();
          // int[][] state = {
          //     {219, 0x13, 0x53, 0x45},
          //     {19, 0x0a, 0x22, 0x5c},

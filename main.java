@@ -9,7 +9,7 @@ import java.util.*;
 public class main {
 
     public static void main(String[] args) {
-        times2Test();
+        mixColumnsTest();
         // int[][] state = {
         //     {219, 0x13, 0x53, 0x45},
         //     {19, 0x0a, 0x22, 0x5c},
@@ -79,6 +79,16 @@ public class main {
         }
         AES.printMatrix(m);
         AES.mixColumns(m);
+        System.out.println("mix");
+        AES.printMatrix(m);
+        System.out.println("test 2");
+        for (int i = 0; i < 16; i++) {
+            m[i%4][i/4] = i;
+        }
+        
+        AES.printMatrix(m);
+        AES.mixColumns(m);
+        System.out.println("mix");
         AES.printMatrix(m);
     }
 

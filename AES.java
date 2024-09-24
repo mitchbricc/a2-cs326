@@ -281,7 +281,7 @@ class AES {
      */
     protected static void inverseMixColumns(int[][] state) {
         for (int col = 0; col < state[0].length; col++) {
-            for (int row = 0; row<state[0].length; row++) {
+            for (int row = 0; row < state[0].length; row++) {
                 int cur = state[row][col];
                 state[row][col] = add(add(add(times(cur, 14), times(state[(row+1)%4][col], 11)),
                 times(state[(row+2)%4][col], 13)), times(state[(row+3)%4][col], 9));

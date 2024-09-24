@@ -147,7 +147,7 @@ class AES {
      * an int variable), return their sum in GF(256).
      */
     protected static int add(int v1, int v2) {
-        return v1 ^ v2;
+        return (v1 ^ v2) & 0xff;
     }// add method
 
     /*
@@ -159,7 +159,7 @@ class AES {
             return shifted ^ 27; // xor 00011011
         }
 
-        return shifted;
+        return shifted & 0xff;
     }// times2 method
 
     /*
@@ -257,6 +257,19 @@ class AES {
      */
     protected static void mixColumns(int[][] state)
     {
+        for (int col = 0; col < 4; col++){
+            int c0 = state[0][col];
+            int c1 = state[1][col];
+            int c2 = state[2][col];
+            int c3 = state[3][col];
+
+            state[0][col] = add(add(add(times(2, c0), times(3 , c1)), c2), c3);
+            state[1][col] = add(add(add(times(2, c1), times(3 , c2)), c0), c3);
+            state[2][col] = add(add(add(times(2, c2), times(3 , c3)), c0), c1);
+            state[3][col] = add(add(add(times(2, c2), times(3 , c0)), c1), c2);
+        }
+
+        /* 
         for (int col = 0; col < state[0].length; col++){
             for (int row = 0; row<state[0].length; row++){
                 int cur = state[row][col];
@@ -264,6 +277,7 @@ class AES {
                 state[(row+2)%4][col]), state[(row+3)%4][col]);
             }
         }
+        */
     }// mixColumns method
 
     /*

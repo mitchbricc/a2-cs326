@@ -263,10 +263,10 @@ class AES {
             int c2 = state[2][col]; // 3
             int c3 = state[3][col]; // 4
     
-            temp[0] = add(add(add(times2(c0), (times(c1, 3))), c2), c3) & 0xFF;
-            temp[1] = add(add(add(times2(c1), (times(c2, 3))), c0), c3) & 0xFF;
-            temp[2] = add(add(add(times2(c2), (times(c3, 3))), c0), c1) & 0xFF;
-            temp[3] = add(add(add(times2(c3), (times(c0, 3))), c1), c2) & 0xFF;
+            temp[0] = add(add(add(times2(c0), (times(3,c1))), c2), c3) & 0xFF;
+            temp[1] = add(add(add(times2(c1), (times(3,c2))), c0), c3) & 0xFF;
+            temp[2] = add(add(add(times2(c2), (times(3,c3))), c0), c1) & 0xFF;
+            temp[3] = add(add(add(times2(c3), (times(3,c0))), c1), c2) & 0xFF;
     
             // Copy the transformed column back to the state matrix
             for (int row = 0; row < 4; row++) {

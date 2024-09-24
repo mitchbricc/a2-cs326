@@ -9,6 +9,11 @@ import java.util.*;
 public class main {
 
     public static void main(String[] args) {
+        int n = 5;
+        System.out.println("2x"+n);
+        System.out.println("times2: " +AES.times2(n));
+        System.out.println("times: "+AES.times(n,2));
+        System.out.println("times: "+AES.times(2,n));
         mixColumnsTest();
         // int[][] state = {
         //     {219, 0x13, 0x53, 0x45},

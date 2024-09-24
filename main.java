@@ -75,6 +75,19 @@ public class main {
         }
         return result.toString();
     }
+    public static void inverseMixColumnsTest(){
+        System.out.println("mixColumnsTest");
+        int[][] m = new int[4][4];
+        for (int i = 0; i < 16; i++) {
+            m[i%4][i/4] = (i/4) + 1;
+        }
+        System.out.println("output should match: ");
+        AES.printMatrix(m);
+        AES.mixColumns(m);
+        AES.inverseMixColumns(m);
+        AES.printMatrix(m);
+
+    }
 
     public static void mixColumnsTest(){
         System.out.println("mixColumnsTest");

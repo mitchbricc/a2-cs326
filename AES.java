@@ -280,11 +280,20 @@ class AES {
      * transformation.
      */
     protected static void inverseMixColumns(int[][] state) {
-        for (int col = 0; col < state[0].length; col++) {
-            for (int row = 0; row < state[0].length; row++) {
-                int cur = state[row][col];
-                state[row][col] = add(add(add(times(cur, 14), times(state[(row+1)%4][col], 11)),
-                times(state[(row+2)%4][col], 13)), times(state[(row+3)%4][col], 9));
+        for (int col = 0; col < 4; col++) {
+            int[] temp = new int[4];
+            int c0 = state[0][col];
+            int c1 = state[1][col];
+            int c2 = state[2][col];
+            int c3 = state[3][col];
+    
+            temp[0] = add(add(add(times(14, c0), times(11, c1)), times(13, c2)), times(9, c3)) & 0xFF;
+            temp[1] = add(add(add(times(9, c0), times(14, c1)), times(11, c2)), times(13, c3)) & 0xFF;
+            temp[2] = add(add(add(times(13, c0), times(9, c1)), times(14, c2)), times(11, c3)) & 0xFF;
+            temp[3] = add(add(add(times(11, c0), times(13, c1)), times(9, c2)), times(14, c3)) & 0xFF;
+    
+            for (int row = 0; row < 4; row++) {
+                state[row][col] = temp[row];
             }
         }
     }// inverseMixColumns method

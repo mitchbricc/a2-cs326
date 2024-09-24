@@ -154,7 +154,7 @@ class AES {
      * Given a byte value, return twice that value in GF(256).
      */
     protected static int times2(int value) {
-        boolean shouldXor = value >= 128; // Corrected condition
+        boolean shouldXor = value >= 128;
         int shifted = (value << 1) & 0xff;
         if (shouldXor) {
            return shifted ^ 27; // xor 00011011

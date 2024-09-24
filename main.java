@@ -4,20 +4,35 @@
 public class main {
 
     public static void main(String[] args) {
+        testMixColumns();
+        // testInverseMixColumns();
+    }
+
+    private static void testMixColumns() {
+        System.out.println("Testing mixColumns");
         int[][] state = {
-            {219, 0x13, 0x53, 0x45},
-            {19, 0x0a, 0x22, 0x5c},
-            {83, 0x01, 0x01, 0x01},
-            {69, 0xc6, 0xc6, 0xc6},
+                { 1, 0x13, 0x53, 0x45 },
+                { 2, 0x0a, 0x22, 0x5c },
+                { 3, 0x01, 0x01, 0x01 },
+                { 4, 0xc6, 0xc6, 0xc6 },
         };
 
         AES.mixColumns(state);
 
-        for (int i = 0; i < state.length; i++) {
-            for (int j = 0; j < state[i].length; j++) {
-                System.out.print(state[i][j] + " ");
-            }
-            System.out.println();
-        }
+        AES.printMatrix(state);
+    }
+
+    private static void testInverseMixColumns() {
+        System.out.println("Testing inverseMixColumns");
+        int[][] state = {
+                { 1, 0x13, 0x53, 0x45 },
+                { 1, 0x0a, 0x22, 0x5c },
+                { 1, 0x01, 0x01, 0x01 },
+                { 1, 0xc6, 0xc6, 0xc6 },
+        };
+
+        AES.mixColumns(state);
+        AES.inverseMixColumns(state);
+        AES.printMatrix(state);
     }
 }

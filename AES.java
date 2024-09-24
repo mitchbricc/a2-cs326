@@ -257,6 +257,7 @@ class AES {
      * Update the input state according to the Mix Columns transformation.
      */
     protected static void mixColumns(int[][] state)
+    {
         for (int col = 0; col < 4; col++) {
             int[] temp = new int[4];
             int c0 = state[0][col]; // 1

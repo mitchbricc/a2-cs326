@@ -70,6 +70,18 @@
          }
          return result.toString();
      }
+ 
+     public static void mixColumnsTest(){
+         System.out.println("mixColumnsTest");
+         int[][] m = new int[4][4];
+         for (int i = 0; i < 16; i++) {
+             m[i%4][i/4] = (i/4) + 1;
+         }
+         AES.printMatrix(m);
+         AES.mixColumns(m);
+         AES.printMatrix(m);
+     }
+ 
      public static boolean encryptTest(){
          String plaintext = "helloworld this is a sentence of unknown length. I hope it is long enough";
          byte[] bytes = plaintext.getBytes();

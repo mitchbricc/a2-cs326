@@ -283,8 +283,8 @@ class AES {
         for (int col = 0; col < state[0].length; col++) {
             for (int row = 0; row<state[0].length; row++) {
                 int cur = state[row][col];
-                state[row][col] = add(add(add(times(cur, 14), times(state[(row+1)%4][col], 11)),
-                times(state[(row+2)%4][col], 13)), times(state[(row+3)%4][col], 9));
+                state[row][col] = add(add(add(times(14, cur), times(11, state[(row+1)%4][col])),
+                times(13, state[(row+2)%4][col])), times(9, state[(row+3)%4][col]));
             }
         }
     }// inverseMixColumns method

@@ -9,12 +9,12 @@ import java.util.*;
 public class main {
 
     public static void main(String[] args) {
-        int n = 5;
-        System.out.println("2x"+n);
-        System.out.println("times2: " +AES.times2(n));
-        System.out.println("times: "+AES.times(n,2));
-        System.out.println("times: "+AES.times(2,n));
-        mixColumnsTest();
+        // int n = 5;
+        // System.out.println("2x"+n);
+        // System.out.println("times2: " +AES.times2(n));
+        // System.out.println("times: "+AES.times(n,2));
+        // System.out.println("times: "+AES.times(2,n));
+        inverseMixColumnsTest();
         // int[][] state = {
         //     {219, 0x13, 0x53, 0x45},
         //     {19, 0x0a, 0x22, 0x5c},
@@ -79,11 +79,12 @@ public class main {
         System.out.println("mixColumnsTest");
         int[][] m = new int[4][4];
         for (int i = 0; i < 16; i++) {
-            m[i%4][i/4] = (i/4) + 1;
+            m[i%4][i/4] = i;
         }
         System.out.println("output should match: ");
         AES.printMatrix(m);
         AES.mixColumns(m);
+        System.out.println("output: ");
         AES.inverseMixColumns(m);
         AES.printMatrix(m);
 

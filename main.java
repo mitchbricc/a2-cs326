@@ -30,7 +30,7 @@
      public static void times2Test(){
          ArrayList<int[]> tests = new ArrayList<int[]>();
          tests.add(new int[]{15,30});
-         tests.add(new int[]{255,227});
+         tests.add(new int[]{255,229});
          for (int[] test : tests) {
                  System.out.println("The method times2Test "+(AES.times2(test[0]) == test[1]));
                  System.out.println(test[0] +" X "+2+" = "+test[1]);

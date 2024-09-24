@@ -14,7 +14,7 @@ public class main {
         // System.out.println("times2: " +AES.times2(n));
         // System.out.println("times: "+AES.times(n,2));
         // System.out.println("times: "+AES.times(2,n));
-        inverseMixColumnsTest();
+        encryptTest();
         // int[][] state = {
         //     {219, 0x13, 0x53, 0x45},
         //     {19, 0x0a, 0x22, 0x5c},
@@ -111,7 +111,15 @@ public class main {
         AES.printMatrix(m);
     }
 
-    public static boolean encryptTest(){
+    public static void encryptTest(){
+        String plaintext = "0123456789abcdeffedcba9876543210";
+        String key = "0f1571c947d9e8590cb7add6af7f6798";
+        String ciphertext = "ff0b844a0853bf7c6934ab4364148fb9";
+        int[][] m = AES.encrypt(plaintext, key);
+        AES.printMatrix(m);
+    }
+
+    public static boolean eanddTest(){
         String plaintext = "helloworld this is a sentence of unknown length. I hope it is long enough";
         byte[] bytes = plaintext.getBytes();
         String plainHex = "";

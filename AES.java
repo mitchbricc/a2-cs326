@@ -147,7 +147,7 @@ class AES {
      * an int variable), return their sum in GF(256).
      */
     protected static int add(int v1, int v2) {
-        return (v1 ^ v2) & 0xff;
+        return v1 ^ v2;
     }// add method
 
     /*
@@ -155,8 +155,8 @@ class AES {
      */
     protected static int times2(int value) {
         int shifted = value << 1;
-        if (value > 128) {
-            return shifted ^ 27; // xor 00011011
+        if (value/256==1) {
+            shifted = shifted ^ 27; // xor 00011011
         }
 
         return shifted & 0xff;
@@ -171,11 +171,13 @@ class AES {
     {
         BitSet bitset = BitSet.valueOf(new long[]{v1});
 
-        int product = add(times2(v2), v2);
-        for (int i = 0; i < bitset.length()-2; i++){
-            if (bitset.get(i)){
-                product = add(times2(product), v2);
+        int product = v2;
+        for (int i = 0; i < bitset.length()-1; i++){
+            product = times2(product);
+            if (bitset.get(i)) {
+                product = add(product, v2);
             }
+            
         }
         
         return product; 

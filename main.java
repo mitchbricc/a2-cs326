@@ -9,7 +9,7 @@ import java.util.*;
 public class main {
 
     public static void main(String[] args) {
-        timesTest();
+        times2Test();
         // int[][] state = {
         //     {219, 0x13, 0x53, 0x45},
         //     {19, 0x0a, 0x22, 0x5c},
@@ -26,15 +26,27 @@ public class main {
         //     System.out.println();
         // }
     }
+    public static void times2Test(){
+        ArrayList<int[]> tests = new ArrayList<int[]>();
+        tests.add(new int[]{15,30});
+        tests.add(new int[]{255,227});
+        for (int[] test : tests) {
+                System.out.println("The method times2Test "+(AES.times2(test[0]) == test[1]));
+                System.out.println(test[0] +" X "+2+" = "+test[1]);
+                System.out.println("value returned: "+AES.times2(test[0]));
+        }
+    }
     public static void timesTest(){
         ArrayList<int[]> tests = new ArrayList<int[]>();
+        tests.add(new int[]{15,1,15});
         tests.add(new int[]{15,3,17});
         tests.add(new int[]{255,45,25});
         tests.add(new int[]{137,127,209});
         for (int[] test : tests) {
-            if (AES.times(test[0],test[1]) != test[2]) {
-                System.out.println("The method timesTest failed");
-                System.out.println(test[0] +" X "+test[1]+" != "+test[2]);
+            if (true){//AES.times(test[0],test[1]) != test[2]) {
+                System.out.println("The method timesTest "+(AES.times(test[0],test[1]) == test[2]));
+                System.out.println(test[0] +" X "+test[1]+" = "+test[2]);
+                System.out.println("value returned: "+AES.times(test[0],test[1]));
             }
         }
     }

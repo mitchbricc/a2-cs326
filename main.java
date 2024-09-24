@@ -3,11 +3,13 @@
  */
 
 import java.math.BigInteger;
+import java.util.*;
+
 
 public class main {
 
     public static void main(String[] args) {
-        encryptTest();
+        timesTest();
         // int[][] state = {
         //     {219, 0x13, 0x53, 0x45},
         //     {19, 0x0a, 0x22, 0x5c},
@@ -23,6 +25,18 @@ public class main {
         //     }
         //     System.out.println();
         // }
+    }
+    public static void timesTest(){
+        ArrayList<int[]> tests = new ArrayList<int[]>();
+        tests.add(new int[]{15,3,17});
+        tests.add(new int[]{255,45,25});
+        tests.add(new int[]{137,127,209});
+        for (int[] test : tests) {
+            if (AES.times(test[0],test[1]) != test[2]) {
+                System.out.println("The method timesTest failed");
+                System.out.println(test[0] +" X "+test[1]+" != "+test[2]);
+            }
+        }
     }
     public static String textToHex(String plaintext){
         byte[] bytes = plaintext.getBytes();

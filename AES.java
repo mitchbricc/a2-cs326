@@ -154,12 +154,13 @@ class AES {
      * Given a byte value, return twice that value in GF(256).
      */
     protected static int times2(int value) {
-        int shifted = value << 1;
-        if (value > 128) {
-            return shifted ^ 27; // xor 00011011
+        boolean shouldXor = value >= 128; // Corrected condition
+        int shifted = (value << 1) & 0xff;
+        if (shouldXor) {
+           return shifted ^ 27; // xor 00011011
         }
 
-        return shifted & 0xff;
+        return shifted;
     }// times2 method
 
     /*
@@ -171,11 +172,9 @@ class AES {
     {
         BitSet bitset = BitSet.valueOf(new long[]{v1});
 
-        int product = add(times2(v2), v2);
-        for (int i = 0; i < bitset.length()-2; i++){
-            if (bitset.get(i)){
-                product = add(times2(product), v2);
-            }
+        int product = v2;
+        for (int i = 0; i < bitset.length() - 1; i++) {
+            product = add(times2(product), bitset.get(i) ? v2 : 0);
         }
         
         return product; 

@@ -154,12 +154,13 @@ class AES {
      * Given a byte value, return twice that value in GF(256).
      */
     protected static int times2(int value) {
-        int shifted = value << 1;
-        if (value/256==1) {
-            shifted = shifted ^ 27; // xor 00011011
+        boolean shouldXor = value >= 128; // Corrected condition
+        int shifted = (value << 1) & 0xff;
+        if (shouldXor) {
+           return shifted ^ 27; // xor 00011011
         }
 
-        return shifted & 0xff;
+        return shifted;
     }// times2 method
 
     /*
@@ -172,12 +173,8 @@ class AES {
         BitSet bitset = BitSet.valueOf(new long[]{v1});
 
         int product = v2;
-        for (int i = 0; i < bitset.length()-1; i++){
-            product = times2(product);
-            if (bitset.get(i)) {
-                product = add(product, v2);
-            }
-            
+        for (int i = 0; i < bitset.length() - 1; i++) {
+            product = add(times2(product), bitset.get(i) ? v2 : 0);
         }
         
         return product; 
@@ -266,10 +263,10 @@ class AES {
             int c2 = state[2][col]; // 3
             int c3 = state[3][col]; // 4
     
-            temp[0] = add(add(add(times2(c0), (times2(c1) ^ c1)), c2), c3) & 0xFF;
-            temp[1] = add(add(add(times2(c1), (times2(c2) ^ c2)), c0), c3) & 0xFF;
-            temp[2] = add(add(add(times2(c2), (times2(c3) ^ c3)), c0), c1) & 0xFF;
-            temp[3] = add(add(add(times2(c3), (times2(c0) ^ c0)), c1), c2) & 0xFF;
+            temp[0] = add(add(add(times2(c0), (times(c1, 3))), c2), c3) & 0xFF;
+            temp[1] = add(add(add(times2(c1), (times(c2, 3))), c0), c3) & 0xFF;
+            temp[2] = add(add(add(times2(c2), (times(c3, 3))), c0), c1) & 0xFF;
+            temp[3] = add(add(add(times2(c3), (times(c0, 3))), c1), c2) & 0xFF;
     
             // Copy the transformed column back to the state matrix
             for (int row = 0; row < 4; row++) {
@@ -283,8 +280,8 @@ class AES {
      * transformation.
      */
     protected static void inverseMixColumns(int[][] state) {
-        for (int col = 0; col < state[0].length; col++){
-            for (int row = 0; row<state[0].length; row++){
+        for (int col = 0; col < state[0].length; col++) {
+            for (int row = 0; row<state[0].length; row++) {
                 int cur = state[row][col];
                 state[row][col] = add(add(add(times(cur, 14), times(state[(row+1)%4][col], 11)),
                 times(state[(row+2)%4][col], 13)), times(state[(row+3)%4][col], 9));

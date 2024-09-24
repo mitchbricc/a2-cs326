@@ -16,10 +16,10 @@ public class main {
         };
 
         AES.mixColumns(state);
-        printState(state);
+        AES.printMatrix(state);
 
         AES.inverseMixColumns(state);
-        printState(state);
+        AES.printMatrix(state);
     }
 
     public static String textToHex(String plaintext) {
@@ -42,15 +42,6 @@ public class main {
             result.append((char) charCode);
         }
         return result.toString();
-    }
-
-    public static void printState(int[][] s) {
-        for (int i = 0; i < s.length; i++) {
-            for (int k = 0; k < s[i].length; k++) {
-                System.out.print(s[i][k] + " ");
-            }
-            System.out.println();
-        }
     }
 
     public static boolean encryptTest() {

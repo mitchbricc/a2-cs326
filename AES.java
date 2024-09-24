@@ -160,7 +160,6 @@ class AES {
         }
 
         return shifted & 0xff;
-        return shifted & 0xff;
     }// times2 method
 
     /*
@@ -275,7 +274,6 @@ class AES {
                 state[row][col] = temp[row];
             }
         }
-        */
     }// mixColumns method
 
     /*

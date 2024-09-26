@@ -115,18 +115,16 @@ public class main {
         };
 
         int[][] key = {
-                { 0x01, 0x02, 0x03, 0x04 },
-                { 0x02, 0x04, 0x06, 0x08 },
-                { 0x00, 0x01, 0x02, 0x03 },
-                { 0x01, 0x02, 0x03, 0x04 }
+                { 0x01, 0x02, 0x00, 0x01 },
+                { 0x02, 0x04, 0x01, 0x02 },
+                { 0x03, 0x06, 0x02, 0x03 },
+                { 0x04, 0x08, 0x03, 0x04 }
         };
         int[] kS = AES.expandKey(key);
         AES.printMatrix(s);
         System.out.println("should match after addRoundKey and inverseAddRoundKey");
-        AES.addRoundKey(s, kS, 1);
-        System.out.println("addRoundKey");
-        AES.printMatrix(s);
-        AES.inverseAddRoundKey(s, kS, 1);
+        AES.addRoundKey(s, kS, 10);
+        AES.inverseAddRoundKey(s, kS, 10);
         AES.printMatrix(s);
     }
 

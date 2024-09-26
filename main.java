@@ -8,6 +8,7 @@ import java.util.*;
 public class main {
 
     public static void main(String[] args) {
+        addRoundKeyTest();
         // int n = 5;
         // System.out.println("2x"+n);
         // System.out.println("times2: " +AES.times2(n));
@@ -197,5 +198,26 @@ public class main {
         }
         System.out.println(result);
         return false;
+    }
+
+    public static String textToHex(String plaintext){
+        byte[] bytes = plaintext.getBytes();
+        String plainHex = "";
+        for (int i = 0; i < 8; i++) {
+            plainHex += String.format("%02X", bytes[i]);
+        }
+        return plainHex;
+    }
+    public static String hexToString(String plainHex){
+        StringBuilder result = new StringBuilder();
+        // Split the hex string into pairs of characters
+        for (int i = 0; i < plainHex.length(); i += 2) {
+            // Get the substring of 2 characters
+            String byteString = plainHex.substring(i, i + 2);
+            // Convert the hex pair to an integer
+            int charCode = Integer.parseInt(byteString, 16);
+            result.append((char) charCode);
+        }
+        return result.toString();
     }
 }

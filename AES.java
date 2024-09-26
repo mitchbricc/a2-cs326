@@ -305,15 +305,15 @@ class AES {
      */
     protected static void addRoundKey(int[][] state, int[] w, int round) {
         byte[] temp = new byte[w.length * 4];
-        for (int i = round * 4; i < round * 4 + 4; i++) {
-            temp[i * 4] = (byte) (w[i] >>> 24);
-            temp[i * 4 + 1] = (byte) (w[i] >>> 16);
-            temp[i * 4 + 2] = (byte) (w[i] >>> 8);
-            temp[i * 4 + 3] = (byte) w[i];
+        for (int i = (round-1) * 4; i < (round-1) * 4 + 4; i++) {
+            System.out.println("loop: "+i);
+            temp[i * 4] = (byte) ((w[i] >> 24)&0xff);
+            temp[i * 4 + 1] = (byte) ((w[i] >> 16)&0xff);
+            temp[i * 4 + 2] = (byte) ((w[i] >> 8)&0xff);
+            temp[i * 4 + 3] = (byte) (w[i]&0xff);
         }
-        for (int i = round * 16; i < round * 16 + 16; i++) {
-            System.out.println("round: "+round+" row: "+i % 4+" col: "+i / 4+" i: "+i);
-            state[(i%16) % 4][(i%16) / 4] = state[(i%16) % 4][(i%16) / 4] ^ temp[i];
+        for (int i = (round-1) * 16; i < (round-1) * 16 + 16; i++) {
+            state[(i%16) % 4][(i%16) / 4] ^= temp[i];
         }
     }// addRoundKey method
 

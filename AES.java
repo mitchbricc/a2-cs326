@@ -183,7 +183,7 @@ class AES {
      * according to the AES S-box.
      */
     protected static int forwardSubstituteByte(int byteValue) {
-        int row = (byteValue & 0xf0) >> 4;
+        int row = (byteValue & 0xf0) >>> 4;
         int col = byteValue & 0x0f;
         return sBox[row][col];
     }// forwardSubstituteByte method
@@ -205,7 +205,7 @@ class AES {
      * according to the AES inverse S-box.
      */
     protected static int inverseSubstituteByte(int byteValue) {
-        int row = (byteValue & 0xf0) >> 4;
+        int row = (byteValue & 0xf0) >>> 4;
         int col = byteValue & 0x0f;
         return invSBox[row][col];
     }// inverseSubstituteByte method
@@ -324,9 +324,9 @@ class AES {
     protected static void inverseAddRoundKey(int[][] state, int[] w, int round) {
         byte[] temp = new byte[w.length * 4];
         for (int i = (round-1) * 4; i < (round-1) * 4 + 4; i++) {
-            temp[i * 4] = (byte) ((w[i] >> 24)&0xff);
-            temp[i * 4 + 1] = (byte) ((w[i] >> 16)&0xff);
-            temp[i * 4 + 2] = (byte) ((w[i] >> 8)&0xff);
+            temp[i * 4] = (byte) ((w[i] >>> 24)&0xff);
+            temp[i * 4 + 1] = (byte) ((w[i] >>> 16)&0xff);
+            temp[i * 4 + 2] = (byte) ((w[i] >>> 8)&0xff);
             temp[i * 4 + 3] = (byte) (w[i]&0xff);
         }
         for (int i = temp.length - 1; i >= 0 ; i--) {
@@ -340,9 +340,9 @@ class AES {
      * rotWord( 0x01020304 ) returns 0x02030401
      */
     protected static int rotWord(int word) {
-        int byte1 = (word >> 24) & 0xFF;
-        int byte2 = (word >> 16) & 0xFF;
-        int byte3 = (word >> 8) & 0xFF;
+        int byte1 = (word >>> 24) & 0xFF;
+        int byte2 = (word >>> 16) & 0xFF;
+        int byte3 = (word >>> 8) & 0xFF;
         int byte4 = word & 0xFF;
         
         int rotatedWord = (byte2 << 24) | (byte3 << 16) | (byte4 << 8) | byte1;
@@ -379,7 +379,7 @@ class AES {
                 temp = rotWord(temp);
                 int[] tempTemp = new int[4];
                 for (int j = 0; j < 4; j++) {
-                    tempTemp[j]= forwardSubstituteByte((temp>>8*i)&0xff);
+                    tempTemp[j]= forwardSubstituteByte((temp>>>8*j)&0xff);
                 }
                 temp = (tempTemp[3] << 24) | (tempTemp[2] << 16) | (tempTemp[1] << 8) | tempTemp[0];
                 temp ^= rCon(i / 4);
@@ -399,13 +399,19 @@ class AES {
     protected static int[][] encrypt(String block, String keyStr) {
         int[][] m = hexStringToByteArray(block);
         int[] w = expandKey(hexStringToByteArray(keyStr));
+        
         addRoundKey(m, w, 1);
-        for (int i = 2; i < 11; i++) {
+        for (int i = 2; i < 10; i++) {
             forwardSubstituteBytes(m);
             shiftRows(m);
             mixColumns(m);
             addRoundKey(m, w, i);
         }
+
+        forwardSubstituteBytes(m);
+        shiftRows(m);
+        addRoundKey(m, w, 10);
+
         return m; 
     }// encrypt method
 

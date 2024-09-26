@@ -311,7 +311,7 @@ class AES {
             temp[i * 4 + 3] = (byte) (w[i]&0xff);
         }
         for (int i = (round-1) * 16; i < (round-1) * 16 + 16; i++) {
-            state[(i%16) % 4][(i%16) / 4] ^= temp[i];
+            state[(i%16) % 4][(i%16) / 4] ^= temp[i] &0xff;
         }
     }// addRoundKey method
 
@@ -401,7 +401,7 @@ class AES {
         int[] w = expandKey(hexStringToByteArray(keyStr));
         
         addRoundKey(m, w, 1);
-        for (int i = 2; i < 10; i++) {
+        for (int i = 2; i < 11; i++) {
             forwardSubstituteBytes(m);
             shiftRows(m);
             mixColumns(m);
@@ -410,7 +410,7 @@ class AES {
 
         forwardSubstituteBytes(m);
         shiftRows(m);
-        addRoundKey(m, w, 10);
+        addRoundKey(m, w, 11);
 
         return m; 
     }// encrypt method

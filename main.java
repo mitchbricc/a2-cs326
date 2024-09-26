@@ -141,8 +141,15 @@ public class main {
         String plaintext = "0123456789abcdeffedcba9876543210";
         String key = "0f1571c947d9e8590cb7add6af7f6798";
         String ciphertext = "ff0b844a0853bf7c6934ab4364148fb9";
+        System.out.println("encryptTest");
+        int[][] p = AES.hexStringToByteArray(plaintext);
+        AES.printMatrix(p);
+        System.out.println("output should match");
+        int[][] o = AES.hexStringToByteArray(ciphertext);
+        AES.printMatrix(o);
         int[][] m = AES.encrypt(plaintext, key);
         AES.printMatrix(m);
+        
     }
 
     public static boolean eanddTest(){

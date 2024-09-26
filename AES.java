@@ -325,14 +325,14 @@ class AES {
     protected static void inverseAddRoundKey(int[][] state, int[] w,
             int round) {
         byte[] temp = new byte[w.length * 4];
-        for (int i = 44 - round * 4; i > 0; i--) {
-            temp[i * 4] = (byte) (w[i] >>> 24);
-            temp[i * 4 - 1] = (byte) (w[i] >>> 16);
-            temp[i * 4 - 2] = (byte) (w[i] >>> 8);
-            temp[i * 4 - 3] = (byte) w[i];
+        for (int i = (round-1) * 4; i < (round-1) * 4 + 4; i++) {
+            temp[i * 4] = (byte) ((w[i] >> 24)&0xff);
+            temp[i * 4 + 1] = (byte) ((w[i] >> 16)&0xff);
+            temp[i * 4 + 2] = (byte) ((w[i] >> 8)&0xff);
+            temp[i * 4 + 3] = (byte) (w[i]&0xff);
         }
-        for (int i = 0; i < temp.length; i++) {
-            state[i % 4][i / 4] = state[i % 4][i / 4] ^ temp[i];
+        for (int i = temp.length -1; i >= 0; i--) {
+            state[(i%16) % 4][(i%16) / 4] ^= temp[i];
         }
     }// inverseAddRoundKey method
 

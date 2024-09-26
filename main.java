@@ -17,6 +17,12 @@ public class main {
         inverseShiftRowsTest();
         inverseAddRoundKeyTest();
         rotWordTest();
+        expandKeyTest();
+        
+        
+        // encryptTest();
+        
+        
         // int[][] state = {
         // {219, 0x13, 0x53, 0x45},
         // {19, 0x0a, 0x22, 0x5c},
@@ -144,9 +150,9 @@ public class main {
         AES.addRoundKey(m, w, 1);
         System.out.println("\noutput");
         AES.printMatrix(m);
-     }
+    }
 
-    public static void encryptTest(){
+    public static void encryptTest() {
         String plaintext = "0123456789abcdeffedcba9876543210";
         String key = "0f1571c947d9e8590cb7add6af7f6798";
         String ciphertext = "ff0b844a0853bf7c6934ab4364148fb9";
@@ -159,7 +165,7 @@ public class main {
         int[][] m = AES.encrypt(plaintext, key);
         AES.printMatrix(m);
     }
-        
+
     public static void inverseShiftRowsTest() {
         System.out.println("inverseShiftRowsTest");
         int[][] s = {
@@ -176,8 +182,24 @@ public class main {
     }
 
     public static void rotWordTest() {
+        System.out.println("\nrotWordTest");
         int r = AES.rotWord(0x01020304);
-        System.out.println("\nshould match 02030401: " + Integer.toHexString(r));
+        System.out.println("should match 02030401: " + Integer.toHexString(r));
+    }
+
+    public static void expandKeyTest() {
+        System.out.println("\nexpandKeyTest");
+        int[][] key = {
+                { 0x01, 0x02, 0x00, 0x01 },
+                { 0x02, 0x04, 0x01, 0x02 },
+                { 0x03, 0x06, 0x02, 0x03 },
+                { 0x04, 0x08, 0x03, 0x04 }
+        };
+        int[] kS = AES.expandKey(key);
+        for (int i = 0; i < kS.length; i++) {
+            System.out.printf("%02x ", kS[i]);
+        }
+        System.out.println();
     }
 
     public static String textToHex(String plaintext) {

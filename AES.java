@@ -355,11 +355,7 @@ class AES {
      * the right of the RC value at index j.
      */
     protected static int rCon(int j) {
-        int[] rConValues = { 
-            0x00, 0x01, 0x02, 0x04, 0x08, 0x10, 0x20, 0x40, 0x80, 0x1B, 0x36 
-        };
-        
-        return rConValues[j] << 24;
+        return RC[j] << 24;
     }// rCon method
 
     /*

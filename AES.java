@@ -399,8 +399,8 @@ class AES {
     protected static int[][] encrypt(String block, String keyStr) {
         int[][] m = hexStringToByteArray(block);
         int[] w = expandKey(hexStringToByteArray(keyStr));
-        addRoundKey(m, w, 0);
-        for (int i = 1; i < 11; i++) {
+        addRoundKey(m, w, 1);
+        for (int i = 2; i < 11; i++) {
             forwardSubstituteBytes(m);
             shiftRows(m);
             mixColumns(m);

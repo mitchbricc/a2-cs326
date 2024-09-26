@@ -7,7 +7,6 @@
    (delete the line above this one if your team is a pair)
  *****************************************************/
 
-import java.nio.ByteBuffer;
 import java.util.*;
 
 class AES {
@@ -322,8 +321,7 @@ class AES {
      * according to the Inverse Add Round Key transformation for the given
      * round.
      */
-    protected static void inverseAddRoundKey(int[][] state, int[] w,
-            int round) {
+    protected static void inverseAddRoundKey(int[][] state, int[] w, int round) {
         byte[] temp = new byte[w.length * 4];
         for (int i = (round-1) * 4; i < (round-1) * 4 + 4; i++) {
             temp[i * 4] = (byte) ((w[i] >> 24)&0xff);
@@ -331,7 +329,7 @@ class AES {
             temp[i * 4 + 2] = (byte) ((w[i] >> 8)&0xff);
             temp[i * 4 + 3] = (byte) (w[i]&0xff);
         }
-        for (int i = temp.length -1; i >= 0; i--) {
+        for (int i = temp.length - 1; i >= 0 ; i--) {
             state[(i%16) % 4][(i%16) / 4] ^= temp[i];
         }
     }// inverseAddRoundKey method

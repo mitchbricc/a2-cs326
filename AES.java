@@ -306,7 +306,6 @@ class AES {
     protected static void addRoundKey(int[][] state, int[] w, int round) {
         byte[] temp = new byte[w.length * 4];
         for (int i = (round-1) * 4; i < (round-1) * 4 + 4; i++) {
-            System.out.println("loop: "+i);
             temp[i * 4] = (byte) ((w[i] >> 24)&0xff);
             temp[i * 4 + 1] = (byte) ((w[i] >> 16)&0xff);
             temp[i * 4 + 2] = (byte) ((w[i] >> 8)&0xff);

@@ -123,7 +123,7 @@ public class main {
         System.out.println("addRoundKeyTest");
         int[][] m = new int[4][4];
         for (int i = 0; i < 16; i++) {
-            m[i%4][i/4] = i/4;
+            m[i%4][i/4] = i >11 ? 4 : i/4;
         }
         AES.printMatrix(m);
         int[][] k = AES.hexStringToByteArray("01020304020406080001020301020304");

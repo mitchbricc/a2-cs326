@@ -2,7 +2,6 @@
  * For testing, delete this file before turning in
  */
 
-import java.math.BigInteger;
 import java.util.*;
 
 public class main {
@@ -144,13 +143,6 @@ public class main {
         System.out.println("\noutput");
         AES.printMatrix(m);
      }
-
-    public static void encryptTest(){
-        String plaintext = "0123456789abcdeffedcba9876543210";
-        String key = "0f1571c947d9e8590cb7add6af7f6798";
-        String ciphertext = "ff0b844a0853bf7c6934ab4364148fb9";
-        int[][] m = AES.encrypt(plaintext, key);
-        AES.printMatrix(m);
 
     public static void inverseShiftRowsTest() {
         System.out.println("inverseShiftRowsTest");

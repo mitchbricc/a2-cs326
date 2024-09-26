@@ -16,6 +16,7 @@ public class main {
         forwardSubstituteByteTest();
         inverseShiftRowsTest();
         inverseAddRoundKeyTest();
+        rotWordTest();
         // int[][] state = {
         // {219, 0x13, 0x53, 0x45},
         // {19, 0x0a, 0x22, 0x5c},
@@ -126,23 +127,24 @@ public class main {
         AES.inverseAddRoundKey(s, kS, 10);
         AES.printMatrix(s);
     }
-     public static void addRoundKeyTest(){
+
+    public static void addRoundKeyTest() {
         System.out.println("addRoundKeyTest");
         int[][] m = new int[4][4];
         for (int i = 0; i < 16; i++) {
-            m[i%4][i/4] = i >11 ? 4 : i/4;
+            m[i % 4][i / 4] = i > 11 ? 4 : i / 4;
         }
         AES.printMatrix(m);
         int[][] k = AES.hexStringToByteArray("01020304020406080001020301020304");
         int[] w = AES.expandKey(k);
         System.out.println("last word of key");
         for (int j = 0; j < 4; j++) {
-            System.out.printf("%02x ".toUpperCase(), w[3]>>8*(3-j)&0xff);
+            System.out.printf("%02x ".toUpperCase(), w[3] >> 8 * (3 - j) & 0xff);
         }
         AES.addRoundKey(m, w, 1);
         System.out.println("\noutput");
         AES.printMatrix(m);
-     }
+    }
 
     public static void inverseShiftRowsTest() {
         System.out.println("inverseShiftRowsTest");
@@ -157,6 +159,11 @@ public class main {
         AES.shiftRows(s);
         AES.inverseShiftRows(s);
         AES.printMatrix(s);
+    }
+
+    public static void rotWordTest() {
+        int r = AES.rotWord(0x01020304);
+        System.out.println("\nshould match 02030401: " + Integer.toHexString(r));
     }
 
     public static boolean encryptTest() {
@@ -191,7 +198,7 @@ public class main {
         return false;
     }
 
-    public static String textToHex(String plaintext){
+    public static String textToHex(String plaintext) {
         byte[] bytes = plaintext.getBytes();
         String plainHex = "";
         for (int i = 0; i < 8; i++) {
@@ -199,7 +206,8 @@ public class main {
         }
         return plainHex;
     }
-    public static String hexToString(String plainHex){
+
+    public static String hexToString(String plainHex) {
         StringBuilder result = new StringBuilder();
         // Split the hex string into pairs of characters
         for (int i = 0; i < plainHex.length(); i += 2) {

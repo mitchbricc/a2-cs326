@@ -103,18 +103,19 @@ public class main {
         AES.inverseAddRoundKey(s, kS, 10);
         AES.printMatrix(s);
     }
-     public static void addRoundKeyTest(){
+
+    public static void addRoundKeyTest() {
         System.out.println("addRoundKeyTest");
         int[][] m = new int[4][4];
         for (int i = 0; i < 16; i++) {
-            m[i%4][i/4] = i >11 ? 4 : i/4;
+            m[i % 4][i / 4] = i > 11 ? 4 : i / 4;
         }
         AES.printMatrix(m);
         int[][] k = AES.hexStringToByteArray("01020304020406080001020301020304");
         int[] w = AES.expandKey(k);
         System.out.println("last word of key");
         for (int j = 0; j < 4; j++) {
-            System.out.printf("%02x ".toUpperCase(), w[3]>>8*(3-j)&0xff);
+            System.out.printf("%02x ".toUpperCase(), w[3] >> 8 * (3 - j) & 0xff);
         }
         AES.addRoundKey(m, w, 1);
         System.out.println("\noutput");
@@ -166,39 +167,12 @@ public class main {
         AES.printMatrix(s);
     }
 
-    public static boolean eandDTest() {
-        String plaintext = "helloworld this is a sentence of unknown length. I hope it is long enough";
-        byte[] bytes = plaintext.getBytes();
-        String plainHex = "";
-        for (int i = 0; i < 8; i++) {
-            plainHex += String.format("%02X", bytes[i]);
-        }
-        System.out.println("plaintext: " + plainHex);
-        String key = "this is a key that is useless";
-        byte[] bkey = key.getBytes();
-        String keyHex = "";
-        for (int i = 0; i < 8; i++) {
-            keyHex += String.format("%02X", bkey[i]);
-        }
-        System.out.println("keyHex: " + keyHex);
-        int[][] c = AES.encrypt(plainHex, keyHex);
-        AES.printMatrix(c);
-
-        StringBuilder result = new StringBuilder();
-
-        // Split the hex string into pairs of characters
-        for (int i = 0; i < plainHex.length(); i += 2) {
-            // Get the substring of 2 characters
-            String byteString = plainHex.substring(i, i + 2);
-            // Convert the hex pair to an integer
-            int charCode = Integer.parseInt(byteString, 16);
-            result.append((char) charCode);
-        }
-        System.out.println(result);
-        return false;
+    public static void rotWordTest() {
+        int r = AES.rotWord(0x01020304);
+        System.out.println("\nshould match 02030401: " + Integer.toHexString(r));
     }
 
-    public static String textToHex(String plaintext){
+    public static String textToHex(String plaintext) {
         byte[] bytes = plaintext.getBytes();
         String plainHex = "";
         for (int i = 0; i < 8; i++) {
@@ -206,7 +180,8 @@ public class main {
         }
         return plainHex;
     }
-    public static String hexToString(String plainHex){
+
+    public static String hexToString(String plainHex) {
         StringBuilder result = new StringBuilder();
         // Split the hex string into pairs of characters
         for (int i = 0; i < plainHex.length(); i += 2) {

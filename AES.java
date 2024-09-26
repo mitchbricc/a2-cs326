@@ -425,14 +425,23 @@ class AES {
     protected static int[][] decrypt(String block, String keyStr) {
         int[][] m = hexStringToByteArray(block);
         int[] w = expandKey(hexStringToByteArray(keyStr));
-        inverseAddRoundKey(m, w, 0);
-        for (int i = 0; i < 11; i++) {
-            inverseShiftRows(m);
-            inverseSubstituteBytes(m);
-            inverseAddRoundKey(m, w, i);
-            inverseMixColumns(m);
-        }
         
+        addRoundKey(m, w, 1);
+        for (int i = 2; i < 11; i++) {
+            inverseShiftRows(m);            
+            inverseSubstituteBytes(m);
+            addRoundKey(m, w, i);
+            inverseMixColumns(m);
+
+            forwardSubstituteBytes(m);
+            shiftRows(m);
+            mixColumns(m);
+        }
+
+        inverseShiftRows(m);            
+        inverseSubstituteBytes(m);
+        addRoundKey(m, w, 11);
+
         return m; 
     }// decrypt method
     

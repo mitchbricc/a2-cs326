@@ -144,8 +144,22 @@ public class main {
         AES.addRoundKey(m, w, 1);
         System.out.println("\noutput");
         AES.printMatrix(m);
-    }
+     }
 
+    public static void encryptTest(){
+        String plaintext = "0123456789abcdeffedcba9876543210";
+        String key = "0f1571c947d9e8590cb7add6af7f6798";
+        String ciphertext = "ff0b844a0853bf7c6934ab4364148fb9";
+        System.out.println("encryptTest");
+        int[][] p = AES.hexStringToByteArray(plaintext);
+        AES.printMatrix(p);
+        System.out.println("output should match");
+        int[][] o = AES.hexStringToByteArray(ciphertext);
+        AES.printMatrix(o);
+        int[][] m = AES.encrypt(plaintext, key);
+        AES.printMatrix(m);
+    }
+        
     public static void inverseShiftRowsTest() {
         System.out.println("inverseShiftRowsTest");
         int[][] s = {
@@ -166,7 +180,12 @@ public class main {
         System.out.println("\nshould match 02030401: " + Integer.toHexString(r));
     }
 
-    public static boolean encryptTest() {
+    public static void rotWordTest() {
+        int r = AES.rotWord(0x01020304);
+        System.out.println("\nshould match 02030401: " + Integer.toHexString(r));
+    }
+
+    public static boolean eandDTest() {
         String plaintext = "helloworld this is a sentence of unknown length. I hope it is long enough";
         byte[] bytes = plaintext.getBytes();
         String plainHex = "";

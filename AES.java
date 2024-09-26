@@ -377,7 +377,11 @@ class AES {
             int temp = wordArray[i - 1];
             if (i % 4 == 0) {
                 temp = rotWord(temp);
-                temp = forwardSubstituteByte(temp);
+                int[] tempTemp = new int[4];
+                for (int j = 0; j < 4; j++) {
+                    tempTemp[j]= forwardSubstituteByte((temp>>8*i)&0xff);
+                }
+                temp = (tempTemp[3] << 24) | (tempTemp[2] << 16) | (tempTemp[1] << 8) | tempTemp[0];
                 temp ^= rCon(i / 4);
             }
             wordArray[i] = wordArray[i - 4] ^ temp;

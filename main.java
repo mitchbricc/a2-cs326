@@ -8,6 +8,7 @@ public class main {
 
     public static void main(String[] args) {
         encryptTest();
+    // addRoundKeyTest();
     }
 
     public static void times2Test() {
@@ -115,7 +116,7 @@ public class main {
         int[] w = AES.expandKey(k);
         System.out.println("last word of key");
         for (int j = 0; j < 4; j++) {
-            System.out.printf("%02x ".toUpperCase(), w[3] >> 8 * (3 - j) & 0xff);
+            System.out.printf("%02x ".toUpperCase(), w[3] >>> 8 * (3 - j));
         }
         AES.addRoundKey(m, w, 1);
         System.out.println("\noutput");
@@ -127,9 +128,9 @@ public class main {
         for (int i = 1; i < 11; i++) {
             System.out.println("\ni: " + i);
             int word = AES.rCon(i);
-            int byte1 = (word >> 24) & 0xFF;
-            int byte2 = (word >> 16) & 0xFF;
-            int byte3 = (word >> 8) & 0xFF;
+            int byte1 = (word >>> 24) & 0xFF;
+            int byte2 = (word >>> 16) & 0xFF;
+            int byte3 = (word >>> 8) & 0xFF;
             int byte4 = word & 0xFF;
             System.out.printf("%02x ".toUpperCase(), byte1);
             System.out.printf("%02x ".toUpperCase(), byte2);

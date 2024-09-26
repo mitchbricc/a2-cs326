@@ -7,37 +7,7 @@ import java.util.*;
 public class main {
 
     public static void main(String[] args) {
-        // int n = 5;
-        // System.out.println("2x"+n);
-        // System.out.println("times2: " +AES.times2(n));
-        // System.out.println("times: "+AES.times(n,2));
-        // System.out.println("times: "+AES.times(2,n));
-        inverseMixColumnsTest();
-        forwardSubstituteByteTest();
-        inverseShiftRowsTest();
-        inverseAddRoundKeyTest();
-        rotWordTest();
-        expandKeyTest();
-        
-        
-        // encryptTest();
-        
-        
-        // int[][] state = {
-        // {219, 0x13, 0x53, 0x45},
-        // {19, 0x0a, 0x22, 0x5c},
-        // {83, 0x01, 0x01, 0x01},
-        // {69, 0xc6, 0xc6, 0xc6},
-        // };
-
-        // AES.mixColumns(state);
-
-        // for (int i = 0; i < state.length; i++) {
-        // for (int j = 0; j < state[i].length; j++) {
-        // System.out.print(state[i][j] + " ");
-        // }
-        // System.out.println();
-        // }
+        encryptTest();
     }
 
     public static void times2Test() {
@@ -150,21 +120,21 @@ public class main {
         AES.addRoundKey(m, w, 1);
         System.out.println("\noutput");
         AES.printMatrix(m);
-     }
+    }
 
-    public static void rConTest(){
+    public static void rConTest() {
         System.out.println("rConTest");
         for (int i = 1; i < 11; i++) {
-        System.out.println("\ni: "+i);
-        int word = AES.rCon(i);
-        int byte1 = (word >> 24) & 0xFF;
-        int byte2 = (word >> 16) & 0xFF;
-        int byte3 = (word >> 8) & 0xFF;
-        int byte4 = word & 0xFF;
-        System.out.printf("%02x ".toUpperCase(), byte1);
-        System.out.printf("%02x ".toUpperCase(), byte2);
-        System.out.printf("%02x ".toUpperCase(), byte3);
-        System.out.printf("%02x ".toUpperCase(), byte4);
+            System.out.println("\ni: " + i);
+            int word = AES.rCon(i);
+            int byte1 = (word >> 24) & 0xFF;
+            int byte2 = (word >> 16) & 0xFF;
+            int byte3 = (word >> 8) & 0xFF;
+            int byte4 = word & 0xFF;
+            System.out.printf("%02x ".toUpperCase(), byte1);
+            System.out.printf("%02x ".toUpperCase(), byte2);
+            System.out.printf("%02x ".toUpperCase(), byte3);
+            System.out.printf("%02x ".toUpperCase(), byte4);
         }
     }
 

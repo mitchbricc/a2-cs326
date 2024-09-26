@@ -432,10 +432,6 @@ class AES {
             inverseSubstituteBytes(m);
             addRoundKey(m, w, i);
             inverseMixColumns(m);
-
-            forwardSubstituteBytes(m);
-            shiftRows(m);
-            mixColumns(m);
         }
 
         inverseShiftRows(m);            

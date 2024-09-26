@@ -148,6 +148,7 @@ public class main {
         System.out.println("output should match");
         int[][] o = AES.hexStringToByteArray(ciphertext);
         AES.printMatrix(o);
+        System.out.println("output");
         int[][] m = AES.encrypt(plaintext, key);
         AES.printMatrix(m);
     }

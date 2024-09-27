@@ -135,7 +135,8 @@ class AES {
     protected static int[][] hexStringToByteArray(String hex) {
         int[][] out = new int[4][4];
         for (int i = 0; i < hex.length(); i = i + 2) {
-            out[(i / 2) % 4][(i / 2) / 4] = Integer.decode("0X" + hex.substring(i, i + 2));
+            out[(i / 2) % 4][(i / 2) / 4] = Integer.decode("0X" + 
+            hex.substring(i, i + 2));
         }
 
         return out; // here to please the compiler; should be modified
@@ -286,10 +287,14 @@ class AES {
             int c2 = state[2][col];
             int c3 = state[3][col];
     
-            temp[0] = add(add(add(times(14, c0), times(11, c1)), times(13, c2)), times(9, c3)) & 0xFF;
-            temp[1] = add(add(add(times(9, c0), times(14, c1)), times(11, c2)), times(13, c3)) & 0xFF;
-            temp[2] = add(add(add(times(13, c0), times(9, c1)), times(14, c2)), times(11, c3)) & 0xFF;
-            temp[3] = add(add(add(times(11, c0), times(13, c1)), times(9, c2)), times(14, c3)) & 0xFF;
+            temp[0] = add(add(add(times(14, c0), times(11, c1)),
+                times(13, c2)), times(9, c3)) & 0xFF;
+            temp[1] = add(add(add(times(9, c0), times(14, c1)), 
+                times(11, c2)), times(13, c3)) & 0xFF;
+            temp[2] = add(add(add(times(13, c0), times(9, c1)), 
+                times(14, c2)), times(11, c3)) & 0xFF;
+            temp[3] = add(add(add(times(11, c0), times(13, c1)), 
+                times(9, c2)), times(14, c3)) & 0xFF;
     
             for (int row = 0; row < 4; row++) {
                 state[row][col] = temp[row];
@@ -321,17 +326,9 @@ class AES {
      * according to the Inverse Add Round Key transformation for the given
      * round.
      */
-    protected static void inverseAddRoundKey(int[][] state, int[] w, int round) {
-        byte[] temp = new byte[w.length * 4];
-        for (int i = (round-1) * 4; i < (round-1) * 4 + 4; i++) {
-            temp[i * 4] = (byte) ((w[i] >>> 24)&0xff);
-            temp[i * 4 + 1] = (byte) ((w[i] >>> 16)&0xff);
-            temp[i * 4 + 2] = (byte) ((w[i] >>> 8)&0xff);
-            temp[i * 4 + 3] = (byte) (w[i]&0xff);
-        }
-        for (int i = temp.length - 1; i >= 0 ; i--) {
-            state[(i%16) % 4][(i%16) / 4] ^= temp[i];
-        }
+    protected static void inverseAddRoundKey(int[][] state, int[] w, 
+    int round) {
+        addRoundKey(state, w, 12-round);
     }// inverseAddRoundKey method
 
     /*
@@ -370,18 +367,20 @@ class AES {
         int[] wordArray = new int[44];
         
         for (int i = 0; i < 4; i++) {
-            wordArray[i] = (key[0][i] << 24) | (key[1][i] << 16) | (key[2][i] << 8) | key[3][i];
+            wordArray[i] = (key[0][i] << 24) | (key[1][i] << 16) | 
+                (key[2][i] << 8) | key[3][i];
         }
         
         for (int i = 4; i < 44; i++) {
             int temp = wordArray[i - 1];
             if (i % 4 == 0) {
                 temp = rotWord(temp);
-                int[] tempTemp = new int[4];
+                int[] tempBytes = new int[4];
                 for (int j = 0; j < 4; j++) {
-                    tempTemp[j]= forwardSubstituteByte((temp>>>8*j)&0xff);
+                    tempBytes[j]= forwardSubstituteByte((temp>>>8*j)&0xff);
                 }
-                temp = (tempTemp[3] << 24) | (tempTemp[2] << 16) | (tempTemp[1] << 8) | tempTemp[0];
+                temp = (tempBytes[3] << 24) | (tempBytes[2] << 16) | 
+                    (tempBytes[1] << 8) | tempBytes[0];
                 temp ^= rCon(i / 4);
             }
             wordArray[i] = wordArray[i - 4] ^ temp;
@@ -399,7 +398,7 @@ class AES {
     protected static int[][] encrypt(String block, String keyStr) {
         int[][] m = hexStringToByteArray(block);
         int[] w = expandKey(hexStringToByteArray(keyStr));
-        
+
         addRoundKey(m, w, 1);
         for (int i = 2; i < 11; i++) {
             forwardSubstituteBytes(m);
@@ -407,7 +406,6 @@ class AES {
             mixColumns(m);
             addRoundKey(m, w, i);
         }
-
         forwardSubstituteBytes(m);
         shiftRows(m);
         addRoundKey(m, w, 11);
@@ -425,14 +423,18 @@ class AES {
     protected static int[][] decrypt(String block, String keyStr) {
         int[][] m = hexStringToByteArray(block);
         int[] w = expandKey(hexStringToByteArray(keyStr));
-        inverseAddRoundKey(m, w, 0);
-        for (int i = 0; i < 11; i++) {
+        
+        addRoundKey(m, w, 11);
+        for (int i = 2; i < 11; i++) {
             inverseShiftRows(m);
             inverseSubstituteBytes(m);
-            inverseAddRoundKey(m, w, i);
+            addRoundKey(m, w, 12-i);
             inverseMixColumns(m);
         }
-        
+        inverseShiftRows(m);
+        inverseSubstituteBytes(m);
+        addRoundKey(m, w, 1);
+
         return m; 
     }// decrypt method
     

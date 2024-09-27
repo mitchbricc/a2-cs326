@@ -7,8 +7,7 @@ import java.util.*;
 public class main {
 
     public static void main(String[] args) {
-        encryptTest();
-    // addRoundKeyTest();
+        inverseAddRoundKeyTest();
     }
 
     public static void times2Test() {
@@ -100,8 +99,8 @@ public class main {
         int[] kS = AES.expandKey(key);
         AES.printMatrix(s);
         System.out.println("should match after addRoundKey and inverseAddRoundKey");
-        AES.addRoundKey(s, kS, 10);
-        AES.inverseAddRoundKey(s, kS, 10);
+        AES.addRoundKey(s, kS, 1);
+        AES.inverseAddRoundKey(s, kS, 1);
         AES.printMatrix(s);
     }
 
@@ -211,4 +210,19 @@ public class main {
         }
         return result.toString();
     }
+
+    public static void eanddTest(){
+        String plaintext = "0123456789abcdeffedcba9876543210";
+        String key = "0f1571c947d9e8590cb7add6af7f6798";
+        String ciphertext = "ff0b844a0853bf7c6934ab4364148fb9";
+        System.out.println("eandDTest");
+        int[][] p = AES.hexStringToByteArray(plaintext);
+        AES.printMatrix(p);
+        System.out.println("encrypt");
+        int[][] m = AES.encrypt(plaintext, key);
+        System.out.println("decrypt");
+        m = AES.decrypt(ciphertext, key);
+        AES.printMatrix(m);
+    }
 }
+

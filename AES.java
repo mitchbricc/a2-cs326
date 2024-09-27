@@ -424,16 +424,16 @@ class AES {
         int[][] m = hexStringToByteArray(block);
         int[] w = expandKey(hexStringToByteArray(keyStr));
         
-        addRoundKey(m, w, 11);
+        inverseAddRoundKey(m, w, 1);
         for (int i = 2; i < 11; i++) {
             inverseShiftRows(m);
             inverseSubstituteBytes(m);
-            addRoundKey(m, w, 12-i);
+            inverseAddRoundKey(m, w, i);
             inverseMixColumns(m);
         }
         inverseShiftRows(m);
         inverseSubstituteBytes(m);
-        addRoundKey(m, w, 1);
+        inverseAddRoundKey(m, w, 11);
 
         return m; 
     }// decrypt method
